@@ -42,7 +42,7 @@ jobs:
             '{"contents":[{"parts":[{"text":"Analise este log de CI/CD e explique em 3 bullet points o que falhou e como corrigir:\n\n\($log)"}]}]}' \
             > payload.json
           echo "## Diagnóstico da IA" >> $GITHUB_STEP_SUMMARY
-          curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}" \
+          curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${GEMINI_API_KEY}" \
             -H "content-type: application/json" \
             -d @payload.json \
             | jq -r '.candidates[0].content.parts[0].text' >> $GITHUB_STEP_SUMMARY
@@ -58,7 +58,7 @@ jobs:
           jq -n --arg diff "$DIFF" \
             '{"contents":[{"parts":[{"text":"Você é um revisor de código. Analise este diff de Python e aponte em até 5 bullet points melhorias de qualidade, boas práticas ou possíveis bugs. Seja direto e objetivo:\n\n\($diff)"}]}]}' \
             > pr-payload.json
-          REVIEW=$(curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}" \
+          REVIEW=$(curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${GEMINI_API_KEY}" \
             -H "content-type: application/json" \
             -d @pr-payload.json \
             | jq -r '.candidates[0].content.parts[0].text')
